@@ -34,13 +34,5 @@ public class Rectangle extends Shape {
 		System.out.println(getX() + ", " + getY() + ", " + getWidth() + ", " + getHeight());
 	}
 
-	@Override
-	public double getLength() {
-		return 2 * (getWidth() * getHeight());
-	}
 	
-	@Override
-	public double getArea() {
-		return super.getArea();
-	}
 }

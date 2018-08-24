@@ -23,11 +23,8 @@ public class AMS {
 
 		Account[] list = manager.list();
 		for (Account account2 : list) {
-			if (account2 instanceof MinusAccount) {
-				System.out.println("마이너스계좌\t" + account2.toString());
-			}else {
-				System.out.println("입출금계좌\t" + account2.toString());
-				
+			if (account2 != null) {
+				System.out.println(account2.toString());
 			}
 
 		}
