@@ -1,0 +1,28 @@
+
+public class Dog extends Animal {
+	
+	private boolean loyalty;
+	
+	public Dog() {
+		this(null, 0, false);
+	}
+
+	public Dog(String name, int age, boolean loyalty) {
+		this.name = name; 
+		this.age = age; 
+		this.loyalty = loyalty;
+	}
+	
+	
+
+	@Override
+	public void eat() {
+		
+	}
+
+	@Override
+	public void sleep() {
+
+	}
+
+}

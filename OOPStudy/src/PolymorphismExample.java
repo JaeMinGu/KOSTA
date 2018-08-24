@@ -4,7 +4,7 @@ public class PolymorphismExample {
 	public static void main(String[] args) {
 		// 클래스 형변환(Up Casting)
 		Shape shape = null; 
-		shape = new Shape(); 
+//		shape = new Shape(); 
 		
 		shape = new Circle(10, 10, 20);
 		System.out.println(shape); 
@@ -12,7 +12,7 @@ public class PolymorphismExample {
 		shape = new Rectangle(10, 10, 10, 20); 
 		System.out.println(shape);
 		
-		System.out.println(shape.getX());
+		System.out.println(shape.x);
 		System.out.println(shape.getArea());
 		
 		// 추가된 속성이나 메소드를 접근하기 위해 Down Casitng 필요 

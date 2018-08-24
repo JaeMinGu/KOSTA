@@ -96,6 +96,17 @@ public class Account { //class는 public 이거나 default이거나 두 가지�
 		return getAccountNum() + "\t" + getAccountOwner() + "\t" + "****" + "\t" + getRestMoney();
 	}
 	
+	@Override
+		public boolean equals(Object obj) {
+			 
+//			return account1.toString().equals(account2.toString());
+		boolean eq = false; 
+		if(obj instanceof Account) {
+			eq = toString().equals(obj.toString());
+		}
+			return eq;
+		}
+	
 
 	// 클래스(static) 메소드 
 	public static int sum(int a, int b){

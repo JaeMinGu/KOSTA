@@ -2,7 +2,8 @@
 public class ShapeApp {
 
 	public static void main(String[] args) {
-		Shape shape = new Shape(12.5, 34.7);
+//		Shape shape = new Shape(12.5, 34.7);
+		Shape shape = null;
 		shape.draw();
 
 		Circle circle = new Circle(15.0, 15.0, 30.0);
