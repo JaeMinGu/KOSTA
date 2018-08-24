@@ -1,0 +1,16 @@
+
+public class Bicycle /* extends Object */ {
+	int id;
+	String brand;
+
+	public Bicycle() {
+		this(0, null);
+
+	}
+
+	public Bicycle(int id, String brand) {
+		this.id = id;
+		this.brand = brand;
+	}
+
+}

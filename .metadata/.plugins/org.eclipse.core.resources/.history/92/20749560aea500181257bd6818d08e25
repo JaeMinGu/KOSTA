@@ -1,0 +1,23 @@
+/**
+ * LIFO 구조의 스택 구현 
+ * 
+ * @author 최재민
+ *
+ */
+public class Stack {
+	private int[] array;
+	
+	public void push (int value) {
+		
+		
+	}
+	
+	public int pop() {
+		return 0; 
+	}
+	
+	
+	public static void main(String[] args) {
+		
+	}// main
+}

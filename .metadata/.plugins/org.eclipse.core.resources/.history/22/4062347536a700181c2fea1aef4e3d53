@@ -1,0 +1,14 @@
+
+public class Circle extends Shape {
+	private double radian;
+
+	public Circle() {
+		this(0.0, 0.0, 0.0);
+	}
+
+	public Circle(double x, double y, double radian) {
+		super(x, y);
+		this.radian = radian;
+	}
+
+}

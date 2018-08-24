@@ -1,0 +1,14 @@
+/**
+ * 
+ * @author 최재민
+ *
+ */
+
+
+public class ggg {
+	public static void main(String[] args) {
+		System.out.println();
+	}
+}
+
+

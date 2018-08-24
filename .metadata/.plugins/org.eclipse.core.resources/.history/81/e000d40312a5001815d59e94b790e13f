@@ -1,0 +1,19 @@
+/**
+ * 1차원 배열 선언, 생성, 초기화 
+ * @author 최재민
+ * */
+public class ArrayExample {
+
+	public static void main(String[] args) {
+		int[] array; // 선언 
+		array = new int[10]; // 생성 
+		
+		array[0] = 10; 
+		array[9] = 100; 
+		array[10] = 1000; 
+		
+		System.out.println(array[0]); 
+		System.out.println(array[9]);
+	}
+
+}

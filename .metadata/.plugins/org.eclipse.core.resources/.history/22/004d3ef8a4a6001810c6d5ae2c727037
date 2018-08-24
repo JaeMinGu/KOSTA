@@ -1,0 +1,9 @@
+
+public class MountainBicycle extends Bicycle {
+
+	// 추가 속성
+	String frame;
+	boolean suspension;
+	
+	
+}

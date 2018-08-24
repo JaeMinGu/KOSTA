@@ -1,0 +1,18 @@
+
+public class Bicycle {
+	int id;
+	String brand;
+
+	
+	public Bicycle() {
+		this(0, "");
+		
+	}
+	public Bicycle(int id, String brand) {
+		this.id = id;
+		this.brand = brand;
+	}
+	
+}
+
+

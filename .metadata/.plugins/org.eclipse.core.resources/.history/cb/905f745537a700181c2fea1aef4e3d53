@@ -1,0 +1,9 @@
+
+public class ShapeApp {
+
+	public static void main(String[] args) {
+		Shape shape = new Shape(12.5, 34.7);
+		shape.draw();
+	}
+
+}

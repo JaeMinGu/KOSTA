@@ -1,0 +1,15 @@
+/**
+ * AMS(Account Manager System)
+ * 은행 계좌 관리 애플리케이션 
+ * 
+ * @author 최재민
+ *
+ */
+public class AMS {
+
+	public static void main(String[] args) {
+		
+		
+	}
+
+}
