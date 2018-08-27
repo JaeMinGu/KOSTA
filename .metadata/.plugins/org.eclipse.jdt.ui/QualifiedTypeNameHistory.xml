@@ -14,7 +14,6 @@
 <fullyQualifiedTypeName name="java.util.Random"/>
 <fullyQualifiedTypeName name="Bicycle"/>
 <fullyQualifiedTypeName name="MountainBicycle"/>
-<fullyQualifiedTypeName name="java.lang.Override"/>
 <fullyQualifiedTypeName name="Circle"/>
 <fullyQualifiedTypeName name="MinusAccount"/>
 <fullyQualifiedTypeName name="Rectangle"/>
@@ -27,4 +26,22 @@
 <fullyQualifiedTypeName name="Gun"/>
 <fullyQualifiedTypeName name="ShapeApp"/>
 <fullyQualifiedTypeName name="Sword"/>
+<fullyQualifiedTypeName name="Browsable"/>
+<fullyQualifiedTypeName name="java.rmi.Remote"/>
+<fullyQualifiedTypeName name="RemoteControl"/>
+<fullyQualifiedTypeName name="SamsungTV"/>
+<fullyQualifiedTypeName name="java.lang.Double"/>
+<fullyQualifiedTypeName name="java.lang.Math"/>
+<fullyQualifiedTypeName name="Directions"/>
+<fullyQualifiedTypeName name="java.lang.annotation.Documented"/>
+<fullyQualifiedTypeName name="java.lang.Deprecated"/>
+<fullyQualifiedTypeName name="java.lang.Override"/>
+<fullyQualifiedTypeName name="java.util.Formatter"/>
+<fullyQualifiedTypeName name="java.util.GregorianCalendar"/>
+<fullyQualifiedTypeName name="java.lang.Integer"/>
+<fullyQualifiedTypeName name="java.util.Calendar"/>
+<fullyQualifiedTypeName name="Foo"/>
+<fullyQualifiedTypeName name="java.lang.NullPointerException"/>
+<fullyQualifiedTypeName name="java.lang.ArrayIndexOutOfBoundsException"/>
+<fullyQualifiedTypeName name="java.lang.ArithmeticException"/>
 </qualifiedTypeNameHistroy>
