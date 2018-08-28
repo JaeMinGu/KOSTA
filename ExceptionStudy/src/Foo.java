@@ -1,3 +1,5 @@
+import java.io.IOException;
+
 public class Foo {
 
 	public void someMethod() {
@@ -54,10 +56,18 @@ public class Foo {
 
 //		foo.someMethod();
 //		foo.someMethod2();
-		try {
+//		try {
 			foo.someMethod3();
-		} catch (Exception e) {
-			System.out.println("메인에서 모든 예외 처리 완료");
+//		} catch (Exception e) {
+//			System.out.println("메인에서 모든 예외 처리 완료");
+//		}
+
+		
+		try {
+			int value = System.in.read();
+			System.out.println(value);
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 
 		System.out.println("프로그램 종료됨...");
