@@ -9,7 +9,7 @@ public class Stack {
 	 * instance variable
 	 */
 	private int[] array;
-	private int count = 0 ;					//private 꼭 하기, 변수명은 의미 있게 정하기. e.g.top, count
+	private int count = 0 ;	//private 필수, 변수명 의미있게(e.g.count/top) 
 	
 	/**
 	 * constructor

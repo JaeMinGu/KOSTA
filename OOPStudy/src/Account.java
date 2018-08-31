@@ -1,7 +1,9 @@
 
 /**
- * 일상생활의 객체를 추상화하기 위한 모델링 클래스 정의 e.g.은행계좌 객체 c.f.어플리케이션 클래스(테스트를 하기 위해 main
- * 메소드_엔트리포인트를 가지고 있는 클래스)
+ * 일상생활의 객체를 추상화하기 위한 모델링 클래스 정의 e.g.은행계좌 객체 
+ * c.f.어플리케이션 클래스(테스트를 하기 위해 main 메소드_엔트리포인트를 가지고 있는 클래스)
+ * 
+ * @author 최재민 
  */
 public class Account { // class는 public 이거나 default이거나 두 가지밖에 없음
 
@@ -12,6 +14,7 @@ public class Account { // class는 public 이거나 default이거나 두 가지�
 	}
 
 	// 클래스(static) 변수
+
 	public static final String BANKNAME = "하나은행";
 
 	// 인스턴스 변수 선언

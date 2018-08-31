@@ -50,7 +50,9 @@ public class AccountManager2 {
 
 	// 계좌번호를 활용한 계좌조회
 	public Account get(String accountNum) {
-		
+		Enumeration e = accounts.elements();
+			
+				
 		return null;
 	}
 

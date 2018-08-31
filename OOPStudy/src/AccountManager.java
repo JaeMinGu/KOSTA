@@ -6,15 +6,11 @@
  */
 
 public class AccountManager {
-	/**
-	 * field
-	 */
+	// 인스턴스 변수 
 	private Account[] accounts;
 	private int count;
 
-	/**
-	 * constructor
-	 */
+	// 생성자 
 	public AccountManager() {
 		this(10);
 	}
@@ -24,10 +20,7 @@ public class AccountManager {
 	}
 
 
-	/**
-	 * method 
-	 * @return
-	 */
+	// 인스턴스 메소드 
 	public Account[] getAccounts() {
 		return accounts;
 	}
