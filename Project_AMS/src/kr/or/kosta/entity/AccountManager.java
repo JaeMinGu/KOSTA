@@ -37,15 +37,19 @@ public class AccountManager {
 	/**
 	 * 계좌개설
 	 * 
-	 * @param account
+	 * @param account 계좌
 	 */
-	public void add(Account account) {
+	public boolean add(Account account) {
+		boolean result = false;
 		// 중복체크
 		if (accounts.contains(account)) {
 			System.out.println("이미 존재하는 계좌입니다.");
-			return;
+			result = true;
+		} else {
+			accounts.put(account.getAccountNum(), account);
+			result = false;
 		}
-		accounts.put(account.getAccountNum(), account);
+		return result;
 	}
 
 	/**
@@ -60,7 +64,7 @@ public class AccountManager {
 	/**
 	 * 계좌번호를 활용한 계좌조회
 	 * 
-	 * @param accountNum
+	 * @param accountNum 계좌번호
 	 * @return
 	 */
 	public Account getAccount(String accountNum) {
@@ -68,32 +72,31 @@ public class AccountManager {
 	}
 
 	/**
-	 * 예금주를 활용한 계좌조회 
+	 * 예금주를 활용한 계좌조회
 	 * 
-	 * @param accountOwner
+	 * @param accountOwner 예금주
 	 * @return
 	 */
 	public List<Account> searchAccount(String accountOwner) {
 		List<Account> list = new ArrayList<>();
 		Enumeration<Account> e = accounts.elements();
-		while(e.hasMoreElements()) {
+		while (e.hasMoreElements()) {
 			Account account = e.nextElement();
-			if(account.getAccountOwner().equals(accountOwner)) {
+			if (account.getAccountOwner().equals(accountOwner)) {
 				list.add(account);
 			}
 		}
 		return list;
 	}
-	
-	
+
 	/**
-	 * 계좌번호를 활용한 계좌삭제 
+	 * 계좌번호를 활용한 계좌삭제
 	 * 
-	 * @param accountNum
+	 * @param accountNum 계좌번호
 	 * @return
 	 */
 	public boolean remove(String accountNum) {
-		return (accounts.remove(accountNum)) != null; 
+		return (accounts.remove(accountNum)) != null;
 	}
 
 }

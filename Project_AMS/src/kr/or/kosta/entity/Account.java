@@ -1,9 +1,7 @@
 package kr.or.kosta.entity;
 
-import javax.naming.spi.DirStateFactory.Result;
-import javax.security.auth.login.AccountException;
 /**
- * 계좌 클래스 
+ * 계좌 클래스
  * 
  * @author 최재민
  *
@@ -14,10 +12,10 @@ public class Account {
 	public static final String bankName = "KOSTA 은행";
 
 	// 인스턴스 변수 선언
-	private String accountNum; // 계좌번호 
-	private String accountOwner; // 예금주 
+	private String accountNum; // 계좌번호
+	private String accountOwner; // 예금주
 	private int passwd; // 비밀번호
-	private long restMoney; // 잔액 
+	private long restMoney; // 잔액
 
 	// 생성자
 	public Account() {
@@ -71,13 +69,13 @@ public class Account {
 	/**
 	 * 예금 기능
 	 * 
-	 * @param money
+	 * @param money 입금금액 
 	 * @return
 	 */
-	public long deposit(long money) /* throws AccountException */ {
-		/*
-		 * if (money <= 0) { throw new AccountException("0보다 적은 금액은 입력할 수 없습니다.", 3); }
-		 */
+	public long deposit(long money) throws AccountException {
+		if (money <= 0) {
+			throw new AccountException("0보다 적은 금액은 입금할 수 없습니다.", -1);
+		}
 		restMoney += money;
 		return restMoney;
 	}
@@ -85,10 +83,16 @@ public class Account {
 	/**
 	 * 출금 기능
 	 * 
-	 * @param money
+	 * @param money 출금금액 
 	 * @return
 	 */
-	public long withdraw(long money) {
+	public long withdraw(long money) throws AccountException {
+		if (money <= 0) {
+			throw new AccountException("0보다 적은 금액은 출금할 수 없습니다.", -2);
+		}
+		if (money > restMoney) {
+			throw new AccountException("잔액이 부족합니다.", -3);
+		}
 		restMoney -= money;
 		return restMoney;
 	}
@@ -105,7 +109,7 @@ public class Account {
 	/**
 	 * 비밀번호확인 기능
 	 * 
-	 * @param pw
+	 * @param pw 비밀번호
 	 * @return
 	 */
 	public boolean checkPasswd(int pw) {

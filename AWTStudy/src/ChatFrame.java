@@ -3,12 +3,12 @@ import java.awt.Button;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.Font;
 import java.awt.Frame;
-import java.awt.Graphics;
-import java.awt.HeadlessException;
 import java.awt.Label;
+import java.awt.Menu;
+import java.awt.MenuBar;
+import java.awt.MenuItem;
+import java.awt.MenuShortcut;
 import java.awt.Panel;
 import java.awt.TextArea;
 import java.awt.TextField;
@@ -23,8 +23,6 @@ import java.awt.event.TextEvent;
 import java.awt.event.TextListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.net.ConnectException;
-import java.util.List;
 
 import javax.swing.JOptionPane;
 
@@ -35,6 +33,10 @@ public class ChatFrame extends Frame {
 	Button connectB, sendB;
 	TextArea messageTA;
 	java.awt.List userList;
+
+	MenuBar menuBar;
+	Menu menu;
+	MenuItem newMI, exitMI;
 
 	public ChatFrame() {
 		this("이름없음");
@@ -56,6 +58,13 @@ public class ChatFrame extends Frame {
 		userList.add("말미잘");
 		userList.add("꼴뚜기");
 		userList.add("머저리");
+
+		menuBar = new MenuBar();
+		menu = new Menu("File");
+		newMI = new MenuItem("New");
+		newMI.setShortcut(new MenuShortcut(KeyEvent.VK_N)); // 단축키 설정 표시만 되어 있음, 이벤트 처리는 아직. 
+		exitMI = new MenuItem("Exit");
+		exitMI.setShortcut(new MenuShortcut(KeyEvent.VK_X)); 
 	}
 
 	/**
@@ -90,7 +99,15 @@ public class ChatFrame extends Frame {
 		this.setLocation(100, 100);
 
 //		setColorAll(Color.blue);
+		
+		setMenuBar(menuBar); // frame에 menuBar 붙임
+		menuBar.add(menu); // menuBar에 menu를 붙임 
+		menu.add(newMI); //menu에 newMI 붙임
+		menu.addSeparator(); // 구분선 추가 
+		menu.add(exitMI); //menu에 exitMI 붙임
+		
 	}
+
 
 	public void setCenter() {
 //		Runtime.getRuntime().exec(command)
@@ -200,6 +217,14 @@ public class ChatFrame extends Frame {
 																													// 됨
 					JOptionPane.showMessageDialog(null, name + "님 선택이요..", "알림", JOptionPane.ERROR_MESSAGE);
 				}
+			}
+		});
+
+		// exitMI(Ctrl+x) 이벤트 걸어주기 
+		exitMI.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				finish();
 			}
 		});
 
