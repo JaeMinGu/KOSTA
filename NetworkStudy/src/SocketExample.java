@@ -18,8 +18,8 @@ public class SocketExample {
 	// 연결 시 꼭 필요한 ip, port
 //	public static final String domain = "www.naver.com"; // 도메인 이름
 //	public static final String domain = "127.0.0.1"; // 자기 컴퓨터-localhost랑 같은 의미 
-//	public static final String domain = "localhost"; // 자기 컴퓨터
-	public static final String domain = "192.168.0.129"; // 호진 컴퓨터-ipconfig
+	public static final String domain = "localhost"; // 자기 컴퓨터
+//	public static final String domain = "192.168.0.129"; // 호진 컴퓨터-ipconfig
 	public static final int port = 7777; // 포트번호-임의로 지정
 
 	public static void main(String[] args) {
