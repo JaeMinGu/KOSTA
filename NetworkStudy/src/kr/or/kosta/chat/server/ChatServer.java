@@ -50,8 +50,7 @@ public class ChatServer {
 		}
 	}
 
-	public void shutDown() {
-	}
+	
 
 	public void addClient(Client client) {
 		clients.put(client.getNickName(), client);
@@ -69,8 +68,12 @@ public class ChatServer {
 		clients.remove(client.getNickName());
 	}
 
+	/**
+	 * 전체 채팅하기 
+	 * 
+	 * @param message
+	 */
 	public void sendAllMessage(String message) {
-
 		Enumeration<Client> e = clients.elements();
 		while (e.hasMoreElements()) {
 			Client client = e.nextElement();

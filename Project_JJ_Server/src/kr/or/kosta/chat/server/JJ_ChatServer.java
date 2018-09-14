@@ -3,12 +3,12 @@ package kr.or.kosta.chat.server;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.List;
-
-import javax.sound.sampled.Port;
 
 import kr.or.kosta.common.Protocol;
 
@@ -18,19 +18,29 @@ import kr.or.kosta.common.Protocol;
  *
  */
 public class JJ_ChatServer {
-	private static final int PORT = 8888;
+	private static final int PORT = 8888; // sever의 port번호 
 
-	private boolean running;
-	private ServerSocket serverSocket;
-	private Hashtable<String, JJ_Client> clients;
-	private JJ_WaitingRoom waitingRoom;
-	private static int roomNumber = 3;
+	private boolean running; // 현재상태 
+	private ServerSocket serverSocket; // sevevr의 Socket 
+	private Hashtable<String, JJ_Client> clients; // server에서 clients 관리 
+	private JJ_WaitingRoom waitingRoom; // chatRoom을 관리하는 waitingRoom 
+	private static int roomNumber = 3; 
+
+	Date today = null;
+	private SimpleDateFormat simpleDateFormat = null;
 
 	public JJ_ChatServer() {
+
+		today = new Date();
+		simpleDateFormat = new SimpleDateFormat("MM.dd HH:mm");
+
 		clients = new Hashtable<>();
 		clients.put("소시지", new JJ_Client("소시지"));
 		clients.put("별", new JJ_Client("별"));
 		clients.put("사탕", new JJ_Client("사탕"));
+		clients.put("치약", new JJ_Client("치약"));
+		clients.put("물통", new JJ_Client("물통"));
+
 		waitingRoom = new JJ_WaitingRoom(this);
 
 	}
@@ -71,10 +81,10 @@ public class JJ_ChatServer {
 	 * @throws IOException
 	 * 
 	 */
-	public void startUp() throws IOException {
+	public void startUp() throws IOException { 
 		Socket socket;
 		try {
-			serverSocket = new ServerSocket(PORT);
+			serverSocket = new ServerSocket(PORT); // port번호로 serverSocket 열어줌 
 		} catch (IOException e) {
 			throw new IOException("[" + PORT + "] 포트 충돌이 일어났습니다. ");
 		}
@@ -111,7 +121,7 @@ public class JJ_ChatServer {
 	 * @param nickName
 	 * @return
 	 */
-	public boolean isExistNickName(String nickName) {
+	public boolean isExistNickName(String nickName) { // nickName을 전달 받아 clients 중에서 해당하는 nickName이 있는지 rerturn
 		return clients.containsKey(nickName);
 	}
 
@@ -142,15 +152,7 @@ public class JJ_ChatServer {
 		return list;
 	}
 
-	/**
-	 * 해당 채팅방의 사용자 수 반환
-	 * 
-	 * @return
-	 */
-	public int getClientCount() {
-		return 0;
-	}
-
+	
 	/**
 	 * 채팅방 이름 중복확인
 	 * 
@@ -171,14 +173,12 @@ public class JJ_ChatServer {
 	 * @param client
 	 */
 	public void removeClient(JJ_Client client) {
+		// 채팅방에 참여되어 있으면 방에서도 없애기
+		JJ_ChatRoom chatRoom = waitingRoom.getChatRoom(client.getNickName());
+		if (chatRoom != null) {
+			chatRoom.removeClient(client.getNickName());
+		}
 		clients.remove(client.getNickName());
-
-	}
-
-	/**
-	 * Socket 없애기
-	 */
-	public void shutDown() {
 
 	}
 
@@ -228,9 +228,8 @@ public class JJ_ChatServer {
 	/**
 	 * 해당 채팅방에 Client 추가하기
 	 * 
-	 * @param string
-	 * @param string2
-	 * @param jj_Client
+	 * @param nickName
+	 * @param roomName
 	 */
 	public boolean addClientToChatRoom(String nickName, String roomName) {
 		if (waitingRoom.addClientToChatRoom(nickName, roomName)) {
@@ -261,18 +260,18 @@ public class JJ_ChatServer {
 	/**
 	 * 채팅시작하기
 	 * 
-	 * @param string
-	 * @param string2
+	 * @param nickName
+	 * @param message
 	 */
 	public void startRoomChat(String nickName, String message) {
 		// nickName을 활용해서 해당 채팅방을 찾아야 함
 		JJ_ChatRoom chatRoom = waitingRoom.getChatRoom(nickName);
 		// 그 채팅방에 있는 사람들을 찾아야 함
-		List<String> roomUsers = chatRoom.getClientNickNames();
+		List<String> roomUsers = chatRoom.getClients();
 		// 그 사람들한테 message를 뿌려야 함
 		for (String nickNames : roomUsers) {
-			clients.get(nickNames).sendMessage(
-					Protocol.SC_ROOM_CHAT_RESULT + Protocol.DELEMETER + nickName + Protocol.DELEMETER + message);
+			clients.get(nickNames).sendMessage(Protocol.SC_ROOM_CHAT_RESULT + Protocol.DELEMETER + nickName
+					+ Protocol.DELEMETER + message + Protocol.DELEMETER + simpleDateFormat.format(today));
 		}
 		// List<String> roomUser = waitingRoom.getChatUserName(nickName);
 		// 들어온 nickName이 있는 채팅방 찾기
@@ -287,15 +286,117 @@ public class JJ_ChatServer {
 	}
 
 	/**
-	 * 대기방 말고 특정 채팅방에만 userList 업데이트 해주기 
+	 * 대기방 말고 특정 채팅방에만 userList 업데이트 해주기
 	 * 
 	 * @param nickName
 	 */
-	public void sendToSpecificRoom(String nickName) {
-		JJ_ChatRoom chatRoom = waitingRoom.getChatRoom(nickName);
-		List<String> users = chatRoom.getClientNickNames();
+	public void sendToSpecificRoom(String chatRoomName) {
+
+		List<String> users = waitingRoom.getActiveChatRoomClientList(chatRoomName);
 		for (String userList : users) {
 			clients.get(userList).sendMessage(Protocol.SC_UPDATE_ROOM_USER + Protocol.DELEMETER + users);
 		}
 	}
+
+	/**
+	 * 귓속말하기
+	 * 
+	 * @param sender
+	 * @param receiver
+	 * @param message
+	 */
+	public void startSecretChat(String sender, String receiver, String message) {
+		// receiver가 채팅방 안에 있는지, 밖에 있는지 판단
+		// receiver의 client 객체 찾기
+		JJ_Client receiverC = clients.get(receiver);
+		if (waitingRoom.getChatRoom(receiver) != null) { // 채팅방 안에 있는 경우
+			// receiver한테 sender로부터 message가 왔다고 얘기하기
+			receiverC.sendMessage(Protocol.SC_SECRET_CHAT_ROOM_RESULT + Protocol.DELEMETER + sender + Protocol.DELEMETER
+					+ message + Protocol.DELEMETER + simpleDateFormat.format(today));
+		} else { // 채팅방 밖에 있는 경우
+			receiverC.sendMessage(Protocol.SC_SECRET_CHAT_WAIT_RESULT + Protocol.DELEMETER + sender + Protocol.DELEMETER
+					+ message + Protocol.DELEMETER + simpleDateFormat.format(today));
+		}
+
+	}
+
+	/**
+	 * 초대하기
+	 */
+	public void inviteReceiver(String sender, String receiver) {
+		// 초대받는 대상 찾기
+		JJ_Client receiverC = clients.get(receiver);
+		// receiver한테 초대 전하기(보내야할 것: protocol, sender, roomName)
+		JJ_ChatRoom room = waitingRoom.getChatRoom(sender);
+		receiverC.sendMessage(
+				Protocol.SC_INVITE_RESULT + Protocol.DELEMETER + sender + Protocol.DELEMETER + room.getRoomName());
+	}
+
+	/**
+	 * 방 나가기
+	 * 
+	 * @param nickName
+	 */
+	public void leaveRoom(String nickName) {
+		// nickName에 해당하는 chatRoom 찾기
+		JJ_ChatRoom chatRoom = waitingRoom.getChatRoom(nickName);
+		// chatRoom에서 nickName 제거하기
+		chatRoom.removeClient(nickName);
+
+	}
+
+	/**
+	 * 전체 채팅
+	 * 
+	 * @param nickName
+	 * @param message
+	 */
+	public void sendAllMessage(String nickName, String message) {
+		// 모든 client 찾기
+		Enumeration<JJ_Client> clientList = clients.elements();
+		// 모든 client에게 message 전달하기
+		while (clientList.hasMoreElements()) {
+			JJ_Client client = clientList.nextElement();
+			client.sendMessage(Protocol.SC_ALL_CHAT_RESULT + Protocol.DELEMETER + nickName + Protocol.DELEMETER
+					+ message + Protocol.DELEMETER + simpleDateFormat.format(today));
+
+		}
+	}
+
+	/**
+	 * 방 없애기
+	 * 
+	 * @param nickName
+	 */
+	public boolean removeChatRoom(String nickName) {
+		// 채팅방 안에 있는 다른 사람이 있는지 체크
+		JJ_ChatRoom chatRoom = waitingRoom.getChatRoom(nickName);
+		int chatRoomSize = chatRoom.getClientCount(); // 해당 chatRoom의 사용자 수 반환
+
+		//방장인 경우
+		if (chatRoom.getRoomOwner().equals(nickName)) {
+			if(chatRoomSize == 1) {
+				waitingRoom.removeChatRoom(chatRoom);
+				return true;
+			}
+			// 있으면, 남아있는 사람 중 아무나를 방장으로 set
+			List<String> chatRoomNickNames = chatRoom.getClients();// chatRoom 안의 client 반환
+			chatRoom.setRoomOwner(chatRoomNickNames.get(1));
+		}
+		return false;
+		
+	}
+	
+	/**
+	 * @param nickName
+	 * @return 방에 들어가 있는 지
+	 */
+	public boolean isUserHasRoom(String nickName) {
+		return (waitingRoom.getChatRoom(nickName) != null);
+	}
+	
+	public String getUserChatRoomName(String nickName) {
+		return waitingRoom.getChatRoom(nickName).getRoomName();
+	}
+
 }

@@ -12,49 +12,35 @@ import java.util.List;
  */
 public class JJ_WaitingRoom {
 
-	JJ_ChatServer server;
-	Hashtable<String, JJ_ChatRoom> chatRooms;
+	JJ_ChatServer server; // 서버와 연결 
+	Hashtable<String, JJ_ChatRoom> chatRooms; // 채팅방 관리 
 
+	// default 생성자 
 	public JJ_WaitingRoom() {
 
 	}
 
+	// 서버를 전달받았을 때의 생성자 
 	public JJ_WaitingRoom(JJ_ChatServer server) {
-		this.server = server;
-		chatRooms = new Hashtable<>();
+		this.server = server; // 서버 초기화 
+		chatRooms = new Hashtable<>(); // 채팅방 관리 초기화 
 
-		chatRooms.put("멍텅구리1", new JJ_ChatRoom(1, "멍텅구리1", "소시지", 6));
-		
-		chatRooms.put("멍텅구리2", new JJ_ChatRoom(2, "멍텅구리2", "사탕", 3));
+		// 더미데이터 
+		chatRooms.put("멍텅구리1", new JJ_ChatRoom(1, "멍텅구리1", "소시지", 6)); // 방번호, 방이름, 방장, 수용가능인원
+		chatRooms.put("멍텅구리2", new JJ_ChatRoom(2, "멍텅구리2", "사탕", 3)); 
 		chatRooms.put("멍텅구리3", new JJ_ChatRoom(3, "멍텅구리3", "별", 5));
 		
-		chatRooms.get("멍텅구리1").addClient("소시지");
+		chatRooms.get("멍텅구리1").addClient("소시지"); // 멍텅구리1이라는 방에 client 추가(소시지, 치약, 물통)
 		chatRooms.get("멍텅구리1").addClient("치약");
 		chatRooms.get("멍텅구리1").addClient("물통");
 
 		chatRooms.get("멍텅구리2").addClient("사탕");
-		chatRooms.get("멍텅구리3").addClient("별");
-
 		
-	}
-
-	/**
-	 * 사용자 수 반환
-	 * 
-	 * @return
-	 */
-	public int getClientCount() {
-		return 0;
-	}
-
-	/**
-	 * 현재 활성화 된 채팅방 수 반환
-	 * 
-	 * @return
-	 */
-	public int getChatActiveRoomCount() {
-
-		return 0;
+		chatRooms.get("멍텅구리3").addClient("별");
+		
+		chatRooms.get("멍텅구리1").setRoomOwner("소시지"); // 멍텅구리1 방의 방장: 소시지 
+		chatRooms.get("멍텅구리2").setRoomOwner("사탕");
+		chatRooms.get("멍텅구리3").setRoomOwner("별");
 	}
 
 	/**
@@ -62,15 +48,15 @@ public class JJ_WaitingRoom {
 	 * 
 	 * @return
 	 */
-	public List<JJ_ChatRoom> getActiveChatRoomList() {
+	public List<JJ_ChatRoom> getActiveChatRoomList() { 
 		List<JJ_ChatRoom> chatRoomList = new ArrayList<>();
-		Enumeration<JJ_ChatRoom> e = chatRooms.elements();
+		Enumeration<JJ_ChatRoom> e = chatRooms.elements(); // HashTable에 있는 채팅방을 chatRoomList에 추가 
 		while (e.hasMoreElements()) {
 			JJ_ChatRoom chatRoom = e.nextElement();
 			chatRoomList.add(chatRoom);
 		}
 		if (chatRoomList.size() != 0) {
-			return chatRoomList;
+			return chatRoomList; // 현재 활성화된 chatRoomList를 반환 
 		}
 		return null;
 	}
@@ -99,42 +85,19 @@ public class JJ_WaitingRoom {
 		return chatRooms;
 	}
 
-	/**
-	 * 방 번호 반환
-	 * 
-	 * @return
-	 */
-	public int getChatRoomNum() {
-		return 0;
-	}
 
 	/**
-	 * 방장 반환
+	 * 방장 설정하기  
 	 * 
-	 * @return
+	 * @param nickName
 	 */
-	public String getChatRoomOwner() {
-		return null;
+	public void setChatRoomOwner(String nickName) {
+		chatRooms.get(nickName).setRoomOwner(nickName); 
 	}
 
-	/**
-	 * 채팅방 내 사용자들 반환
-	 * 
-	 * @param chatRoomName
-	 * @return
-	 */
-	public List getClientNames(String chatRoomName) {
-		return null;
-	}
-
-	/**
-	 * 채팅방 크기 설정 시 유효한 값 여부 확인
-	 * 
-	 * @return
-	 */
-	public boolean isValidChatRoomCapacity(Object object) {
-		return false;
-	}
+	
+	
+	
 
 	/**
 	 * 새로운 채팅방 추가
@@ -150,12 +113,18 @@ public class JJ_WaitingRoom {
 				new JJ_ChatRoom(newChatRoomNumber, newChatRoomName, newChatRoomOwner, newChatRoomCapacity));
 	}
 	
+	/**
+	 * nickName으로 chatRoom 찾기 
+	 * 
+	 * @param nickName
+	 * @return
+	 */
 	public JJ_ChatRoom getChatRoom(String nickName) {
 		JJ_ChatRoom tempRoom = null;
 		Enumeration<JJ_ChatRoom> tempRooms = chatRooms.elements();
 		while (tempRooms.hasMoreElements()) {
 			JJ_ChatRoom jj_ChatRoom = (JJ_ChatRoom) tempRooms.nextElement();
-			if(jj_ChatRoom.getFindUserRoom(nickName)) {
+			if(jj_ChatRoom.getClientByNickname(nickName)) {
 				tempRoom = jj_ChatRoom;
 				break;
 			}
@@ -168,7 +137,7 @@ public class JJ_WaitingRoom {
 	 */
 	public List<String> getChatUserName(String nickName) {
 		//해당 방의 유저를 return
-		return getChatRoom(nickName).getClientNickNames();
+		return getChatRoom(nickName).getClients();
 		
 	}
 	
@@ -181,7 +150,7 @@ public class JJ_WaitingRoom {
 //		List<String> clientNickNamelist = new ArrayList<>();
 		JJ_ChatRoom chatRoom = chatRooms.get(roomName);
 //		clientNickNamelist.addAll(chatRoom.getClientNickNames());
-		return chatRoom.getClientNickNames(); 
+		return chatRoom.getClients(); 
 	}
 	
 	/**
@@ -195,4 +164,14 @@ public class JJ_WaitingRoom {
 		return false; 
 	}
 
+	/**
+	 * 방 없애기 
+	 * 
+	 * @param chatRoom
+	 */
+	public void removeChatRoom(JJ_ChatRoom chatRoom) {
+		chatRooms.remove(chatRoom.getRoomName());
+	}
+	
+	
 }
